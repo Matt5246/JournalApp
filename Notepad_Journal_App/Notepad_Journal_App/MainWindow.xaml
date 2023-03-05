@@ -7,127 +7,194 @@
         
         mc:Ignorable="d"
         Title="JournalApp" Height="450" Width="800" MinHeight="550" MinWidth="1200">
+     <DockPanel>
 
-     <Grid>
-          <Grid.ColumnDefinitions>
-               <ColumnDefinition Width="*" />
-               <ColumnDefinition Width="3*" />
-               <ColumnDefinition Width="1.7*" />
-          </Grid.ColumnDefinitions>
+          <!-- Menu Bar -->
+          <Menu DockPanel.Dock="Top">
+               <MenuItem Header="Background Color">
+                    <MenuItem Header="Mint" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Light Blue" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Grey" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Blue" Click="MenuBackground_Click"/>
+                    <MenuItem Header="White" Click="MenuBackground_Click"/>
+               </MenuItem>
+               <MenuItem Header="Font Color">
+                    <MenuItem Header="Mint" Click="MenuFontColor_Click"/>
+                    <MenuItem Header="Light Blue" Click="MenuFontColor_Click"/>
+                    <MenuItem Header="Grey" Click="MenuFontColor_Click"/>
+                    <MenuItem Header="Blue" Click="MenuFontColor_Click"/>
+                    <MenuItem Header="White" Click="MenuFontColor_Click"/>
+               </MenuItem>
+               <MenuItem Header="Font Size">
+                    <MenuItem Header="Small" Click="MenuFontSize_Click"/>
+                    <MenuItem Header="Medium" Click="MenuFontSize_Click"/>
+                    <MenuItem Header="Large" Click="MenuFontSize_Click"/>
+               </MenuItem>
 
-          <!-- First Column with Scrollbar -->
-          <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
-               <Grid Grid.Column="0">
+          </Menu>
+
+          <Grid>
+
+               <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="3*" />
+                    <ColumnDefinition Width="1.7*" />
+               </Grid.ColumnDefinitions>
+
+               <!-- First Column with Scrollbar -->
+               <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
+                    <Grid Grid.Column="0">
+                         <ScrollViewer VerticalScrollBarVisibility="Auto">
+                              <StackPanel Margin="10">
+                                   <TextBlock Text="To do soon" FontWeight="Bold" FontSize="15"/>
+                              </StackPanel>
+                         </ScrollViewer>
+                    </Grid>
+               </Border>
+
+               <!-- Second Column with Scrollbar -->
+
+               <Grid Grid.Column="1" RenderTransformOrigin="0.499,0.515">
+
                     <ScrollViewer VerticalScrollBarVisibility="Auto">
                          <StackPanel Margin="10">
-                              <TextBlock Text="To do soon" FontWeight="Bold" />
+                              <StackPanel Orientation="Horizontal">
+                                   <TextBlock x:Name="TitleText" Text="To do list:" FontWeight="Bold" FontSize="15"/>
+                                   
+                              </StackPanel>
+                              <StackPanel Orientation="Horizontal">
+                                   <TextBlock Text="Task:" FontWeight="Bold" Margin="0 10 10 0"/>
+                                   <TextBox Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                   <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
+                                   <DatePicker Margin="0 10 10 0"/>
+                                   <Button Content="Save" Margin="10 10 0 0"/>
+                              </StackPanel>
+
+                              <StackPanel Orientation="Horizontal">
+                                   <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
+
+                              </StackPanel>
+                              <StackPanel Orientation="Horizontal">
+                                   <TextBox TextWrapping="Wrap" MinWidth="200" AcceptsReturn="True" Margin="10 10 0 0" />
+                                   <Button Content="Submit" Margin="10 10 0 0"/>
+                              </StackPanel>
+                              
+
+                              <StackPanel Orientation="Vertical">
+                                   <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
+                                   </StackPanel>
+                                   <StackPanel Orientation="Horizontal">
+                                        <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0"/>
+                                        <TextBox Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                        <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
+                                        <DatePicker Margin="0 10 10 0"/>
+                                        <TextBlock Text="Mood:" FontWeight="Bold" Margin="0 10 10 0"/>
+                                        <ComboBox Margin="0 10 0 0">
+                                             <ComboBoxItem Content="Happy" />
+                                             <ComboBoxItem Content="Sad" />
+                                             <ComboBoxItem Content="Angry" />
+                                             <ComboBoxItem Content="Stressed" />
+                                        </ComboBox>
+                                        <Button Content="Save" Margin="10 10 0 0" Height="21"/>
+                                   </StackPanel>
+                                   <TextBox TextWrapping="Wrap" Height="110" AcceptsReturn="True" Margin="0 10 0 0" />
+                                   <Image x:Name="ImagePreview" Stretch="Uniform" Source="myImage.png"/>
+                              </StackPanel>
+                              <TextBlock Text="To do list:" FontWeight="Bold" FontSize="15"/>
+                              <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
+                              <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
                          </StackPanel>
+
                     </ScrollViewer>
                </Grid>
-          </Border>
 
-          <!-- Second Column with Scrollbar -->
 
-          <Grid Grid.Column="1" Width="{Binding ColumnWidth, Mode=OneWay}">
-               <ScrollViewer VerticalScrollBarVisibility="Auto">
-                    <StackPanel Margin="10">
-                         <TextBlock Text="To do list" FontWeight="Bold" />
-                         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Margin="0 10 0 0" />
-                         <TextBlock Text="Tasks (every day objectives)" FontWeight="Bold" />
-                         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Margin="0 10 0 0" />
-                         <TextBlock Text="My journal" FontWeight="Bold" />
-                         <TextBox TextWrapping="Wrap" AcceptsReturn="True" Margin="0 10 0 0" />
-                         <Image x:Name="ImagePreview" Stretch="Uniform" Source="myImage.png"/>
-                    </StackPanel>
-               </ScrollViewer>
-          </Grid>
-
-          <!-- Third Column -->
-          <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" >
-               <Grid Grid.Column="2" >
-                    <Grid.RowDefinitions>
-                         <RowDefinition Height="Auto" />
-                         <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
-
-                    <!-- calendar block content -->
-                    <Grid Grid.RowSpan="2">
+               <!-- Third Column -->
+               <Border Grid.Column="2" BorderBrush="Black" BorderThickness="1" >
+                    <Grid Grid.Column="2" >
                          <Grid.RowDefinitions>
-                              <RowDefinition Height="*" />
                               <RowDefinition Height="Auto" />
+                              <RowDefinition Height="*" />
                          </Grid.RowDefinitions>
 
-                         <Grid Grid.Row="0" Margin="10" >
+                         <!-- calendar block content -->
+                         <Grid Grid.RowSpan="2">
                               <Grid.RowDefinitions>
-                                   <RowDefinition Height="9*" />
                                    <RowDefinition Height="*" />
-                              </Grid.RowDefinitions>
-
-                              <Calendar Grid.Row="0" Margin="10" x:Name="calendar"/>
-                         </Grid>
-
-                         <!-- Task submition content -->
-                         <Grid Grid.Row="1" Margin="10" >
-
-                              <Grid.RowDefinitions>
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
-                                   <RowDefinition Height="Auto" />
                                    <RowDefinition Height="Auto" />
                               </Grid.RowDefinitions>
 
-                              <Grid.ColumnDefinitions>
-                                   <ColumnDefinition Width="Auto"/>
-                                   <ColumnDefinition Width="*" />
-                              </Grid.ColumnDefinitions>
+                              <Grid Grid.Row="0" Margin="10" >
+                                   <Grid.RowDefinitions>
+                                        <RowDefinition Height="9*" />
+                                        <RowDefinition Height="*" />
+                                   </Grid.RowDefinitions>
+
+                                   <Calendar Grid.Row="0" Margin="10" x:Name="calendar"/>
+                              </Grid>
+
+                              <!-- Task submition content -->
+                              <Grid Grid.Row="1" Margin="10" >
+
+                                   <Grid.RowDefinitions>
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                        <RowDefinition Height="Auto" />
+                                   </Grid.RowDefinitions>
+
+                                   <Grid.ColumnDefinitions>
+                                        <ColumnDefinition Width="Auto"/>
+                                        <ColumnDefinition Width="*" />
+                                   </Grid.ColumnDefinitions>
 
 
-                              <TextBlock Text="Task Submition" FontWeight="Bold" FontSize="16" Margin="0 0 0 10">
-                                   <TextBlock.ToolTip>
-                                        <ToolTip Content="There you can add a task to do in the specific day and time!" />
-                                   </TextBlock.ToolTip>
-                              </TextBlock>
+                                   <TextBlock Text="Task Submition" FontWeight="Bold" FontSize="16" Margin="0 0 0 10">
+                                        <TextBlock.ToolTip>
+                                             <ToolTip Content="There you can add a task to do in the specific day and time!" />
+                                        </TextBlock.ToolTip>
+                                   </TextBlock>
 
-                              <TextBlock Grid.Row="1" Text="Image Upload" FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
+                                   <TextBlock Grid.Row="1" Text="Image Upload" FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
 
-                              <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
-                                   <TextBlock Text="Image Path:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
-                                   <TextBox TextChanged="UploadButton_State"  x:Name="ImagePathTextBox" Width="200" VerticalAlignment="Center"/>
-                              </StackPanel>
-
-                              <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
-                                   <TextBlock Text="Image File:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
-
-                                   <StackPanel Grid.Row="4" Orientation="Horizontal">
-                                        <Button x:Name="BrowseButton" Content="Browse" Margin="0 0 10 0" Click="BrowseButton_Click"/>
-                                        <Button HorizontalAlignment="Right" x:Name="UploadButton" Content="Upload" Width="50" Margin="0 0 10 0" Click="UploadButton_Click" IsEnabled="False"/>
+                                   <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
+                                        <TextBlock Text="Image Path:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
+                                        <TextBox TextChanged="UploadButton_State"  x:Name="ImagePathTextBox" Width="200" VerticalAlignment="Center"/>
                                    </StackPanel>
-                              </StackPanel>
+
+                                   <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
+                                        <TextBlock Text="Image File:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
+
+                                        <StackPanel Grid.Row="4" Orientation="Horizontal">
+                                             <Button x:Name="BrowseButton" Content="Browse" Margin="0 0 10 0" Click="BrowseButton_Click"/>
+                                             <Button HorizontalAlignment="Right" x:Name="UploadButton" Content="Upload" Width="50" Margin="0 0 10 0" Click="UploadButton_Click" IsEnabled="False"/>
+                                        </StackPanel>
+                                   </StackPanel>
 
 
-                              <!-- Date Picker -->
-                              <TextBlock Text="Due Date:" Grid.Row="5" FontWeight="Bold" Margin="0 10 10 0" />
-                              <DatePicker Grid.Column="1" Grid.Row="5" Margin="0 10 0 0" SelectedDate="{Binding ElementName=calendar, Path=SelectedDate}" />
+                                   <!-- Date Picker -->
+                                   <TextBlock Text="Due Date:" Grid.Row="5" FontWeight="Bold" Margin="0 10 10 0" />
+                                   <DatePicker Grid.Column="1" Grid.Row="5" Margin="0 10 0 0" SelectedDate="{Binding ElementName=calendar, Path=SelectedDate}" />
 
-                              <!-- Task Description -->
-                              <TextBlock Text="Task Description:" FontWeight="Bold" Margin="0 10 10 0" Grid.Row="6" />
-                              <TextBox Grid.Row="6" Grid.Column="1" Margin="0 10 0 0" Width="200"/>
+                                   <!-- Task Description -->
+                                   <TextBlock Text="Task Description:" FontWeight="Bold" Margin="0 10 10 0" Grid.Row="6" />
+                                   <TextBox Grid.Row="6" Grid.Column="1" Margin="0 10 0 0" Width="200"/>
 
-                              <!-- Submit Button -->
-                              <Button Content="Submit Task" Margin="0 10 0 0" Grid.Row="7" Grid.ColumnSpan="2"/>
-
-                              <Button Content="Toggle Background Color" Click="ToggleBackgroundColor" Margin="0 10 0 0" Grid.Row="8" Grid.ColumnSpan="2"/>
+                                   <!-- Submit Button -->
+                                   <Button Content="Submit Task" Margin="0 10 0 0" Grid.Row="7" Grid.ColumnSpan="2"/>
+                              </Grid>
 
                          </Grid>
-
                     </Grid>
-               </Grid>
-          </Border>
-     </Grid>
+               </Border>
+          </Grid>
+     </DockPanel>
+     
 </Window>
      

@@ -42,20 +42,95 @@ namespace Notepad_Journal_App
                public string TaskDescription { get; set; }
           }
 
-          private void ToggleBackgroundColor(object sender, RoutedEventArgs e)
+          private void MenuBackground_Click(object sender, RoutedEventArgs e)
           {
-               if (isDark)
+               MenuItem menuItem = e.Source as MenuItem;
+               if (menuItem.Header.ToString() == "Mint")
                {
-                    // Change background color to white
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+               }
+               else if (menuItem.Header.ToString() == "Light Blue")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
+               }
+               else if (menuItem.Header.ToString() == "Grey")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+               }
+               else if (menuItem.Header.ToString() == "White")
+               {
                     this.Background = Brushes.White;
-                    isDark = false;
-               }
-               else
+               }else if (menuItem.Header.ToString() == "Blue")
                {
-                    // Change background color to dark
-                    this.Background = Brushes.DarkGray;
-                    isDark = true;
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
                }
+
+          }
+          private void MenuFontColor_Click(object sender, RoutedEventArgs e)
+          {
+               MenuItem item = sender as MenuItem;
+               if (item != null)
+               {
+                    string color = item.Header.ToString(); // get the selected color from the MenuItem header
+
+                    // set the font color of the application
+                    SolidColorBrush brush = new SolidColorBrush();
+                    switch (color)
+                    {
+                         case "Mint":
+                              brush.Color = Color.FromRgb(62, 182, 171);
+                              break;
+                         case "Light Blue":
+                              brush.Color = Color.FromRgb(135, 206, 250);
+                              break;
+                         case "Grey":
+                              brush.Color = Color.FromRgb(169, 169, 169);
+                              break;
+                         case "Blue":
+                              brush.Color = Color.FromRgb(70, 130, 180);
+                              break;
+                         case "White":
+                              brush.Color = Colors.White;
+                              break;
+                         default:
+                              break;
+                    }
+                    // create a new style for TextBlock elements
+                    Style style = new Style(typeof(TextBlock));
+                    style.Setters.Add(new Setter(TextBlock.ForegroundProperty, brush));
+
+                    // apply the style to all TextBlock elements in the application
+                    Application.Current.Resources[typeof(TextBlock)] = style;
+               }
+          }
+          private void MenuFontSize_Click(object sender, RoutedEventArgs e)
+          {
+               MenuItem clickedMenuItem = e.Source as MenuItem;
+               string size = clickedMenuItem.Header.ToString().ToLower();
+
+               switch (size)
+               {
+                    case "small":
+                         SetTextBlockFontSize(12);
+                         break;
+                    case "medium":
+                         SetTextBlockFontSize(16);
+                         break;
+                    case "large":
+                         SetTextBlockFontSize(20);
+                         break;
+                    default:
+                         break;
+               }
+
+          }
+          private void SetTextBlockFontSize(double size)
+          {
+               Style style = new Style(typeof(TextBlock));
+               style.Setters.Add(new Setter(TextBlock.FontSizeProperty, size));
+
+               // apply the style to all TextBlock elements in the application
+               Application.Current.Resources[typeof(TextBlock)] = style;
           }
           private void BrowseButton_Click(object sender, RoutedEventArgs e)
           {
