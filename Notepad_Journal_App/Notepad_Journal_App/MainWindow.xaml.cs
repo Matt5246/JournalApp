@@ -188,5 +188,30 @@ namespace Notepad_Journal_App
           {
                DialogResult = false;
           }
+          private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
+          {
+               // Collect the form data
+               var taskData = new TaskData
+               {
+                    ImagePath = ImagePathTextBox.Text,
+                    DueDate = (DateTime)DatePicker.SelectedDate,
+                    TaskDescription = TaskDescriptionTextBox.Text
+               };
+               // Read the existing JSON data from the file (if any)
+               string existingData = File.ReadAllText("C:\\Users\\matt5\\OneDrive\\Dokumenty\\Github_clones\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\tasks.json");
+
+               // Deserialize the existing JSON data into a list of TaskData objects
+               var taskList = JsonConvert.DeserializeObject<List<TaskData>>(existingData) ?? new List<TaskData>();
+
+               // Add the new task to the list
+               taskList.Add(taskData);
+
+               // Serialize the updated list to JSON
+               var jsonData = JsonConvert.SerializeObject(taskList);
+
+               // Write the JSON to a file
+               File.WriteAllText("C:\\Users\\matt5\\OneDrive\\Dokumenty\\Github_clones\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\tasks.json", jsonData);
+          }
+
      }
 }
