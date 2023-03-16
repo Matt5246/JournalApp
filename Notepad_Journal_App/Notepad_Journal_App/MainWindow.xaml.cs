@@ -1,9 +1,6 @@
 ﻿using Microsoft.Win32;
-using Newtonsoft.Json;
 using System;
-using System.Collections.Generic;
 using System.Collections.ObjectModel;
-using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
@@ -29,36 +26,11 @@ namespace Notepad_Journal_App
             DataContext = new MyViewModel();
             DataContext = new TaskData();
 
-            // Load tasks from tasks.json file
-            LoadTasksFromFile();
+            TaskManager taskManager = new TaskManager();
 
-            // Set the ItemsSource property of the TaskListBox to the tasks collection
-            TaskListBox.ItemsSource = tasks;
-
-            // Register the Tasks_CollectionChanged method as a handler for the ObservableCollection.CollectionChanged event
-            tasks.CollectionChanged += Tasks_CollectionChanged;
+            TaskListBox.ItemsSource = taskManager.Tasks;
         }
-        private void LoadTasksFromFile()
-        {
-            try
-            {
-                // Read the JSON string from the tasks.json file
-                string tasksJson = File.ReadAllText("tasks.json");
 
-                // Deserialize the JSON string to a list of TaskItem objects
-                tasks = JsonConvert.DeserializeObject<ObservableCollection<TaskData>>(tasksJson);
-
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show("Error loading tasks: " + ex.Message);
-            }
-        }
-        private void Tasks_CollectionChanged(object sender, System.Collections.Specialized.NotifyCollectionChangedEventArgs e)
-        {
-            // Save changes to the tasks.json file whenever the collection changes
-            SaveTasksToFile();
-        }
         public class MyViewModel
         {
             public DateTime DueDate { get; set; }
@@ -71,24 +43,28 @@ namespace Notepad_Journal_App
             if (menuItem.Header.ToString() == "Mint")
             {
                 this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+                TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
             }
             else if (menuItem.Header.ToString() == "Light Blue")
             {
                 this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
+                TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
             }
             else if (menuItem.Header.ToString() == "Grey")
             {
                 this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+                TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
             }
             else if (menuItem.Header.ToString() == "White")
             {
                 this.Background = Brushes.White;
+                TaskListBox.Background = Brushes.White;
             }
             else if (menuItem.Header.ToString() == "Blue")
             {
                 this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
+                TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
             }
-
         }
         private void MenuFontColor_Click(object sender, RoutedEventArgs e)
         {
@@ -211,41 +187,29 @@ namespace Notepad_Journal_App
         private void CancelButton_Click(object sender, RoutedEventArgs e)
         {
             DialogResult = false;
-          }
-          private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
-          {
-               // Collect the form data
-               var taskData = new TaskData
-               {
-                    ImagePath = ImagePathTextBox.Text,
-                    DueDate = (DateTime)DatePicker.SelectedDate,
-                    TaskDescription = TaskDescriptionTextBox.Text
-               };
+        }
+        private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
+        {
+            // Collect the form data
+            var taskData = new TaskData
+            {
+                ImagePath = ImagePathTextBox.Text,
+                DueDate = (DateTime)DatePicker.SelectedDate,
+                TaskDescription = TaskDescriptionTextBox.Text
+            };
 
-               // Add the new task to the tasks collection
-               tasks.Add(taskData);
+            // Get the TaskManager instance
+            TaskManager taskManager = new TaskManager();
 
-               // Save the tasks to the tasks.json file
-               SaveTasksToFile();
+            // Add the new task to the list of tasks
+            taskManager.AddTask(taskData);
+            TaskListBox.ItemsSource = taskManager.Tasks;
 
-               // Update the TaskListBox
-               TaskListBox.ItemsSource = tasks;
-          }
-          private void SaveTasksToFile()
-          {
-               try
-               {
-                    // Serialize the ObservableCollection<TaskItem> to a JSON string
-                    string tasksJson = JsonConvert.SerializeObject(tasks, Formatting.Indented);
+            // Clear the text box and date picker
+            TaskDescriptionTextBox.Clear();
+            DatePicker.SelectedDate = null;
+        }
 
-                    // Write the JSON string to the tasks.json file
-                    File.WriteAllText("tasks.json", tasksJson);
-               }
-               catch (Exception ex)
-               {
-                    MessageBox.Show("Error saving tasks: " + ex.Message);
-               }
-          }
 
-     }
+    }
 }
