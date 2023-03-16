@@ -45,9 +45,20 @@
                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
                     <Grid Grid.Column="0">
                          <ScrollViewer VerticalScrollBarVisibility="Auto">
-                              <StackPanel Margin="10">
-                                   <TextBlock Text="To do soon" FontWeight="Bold" FontSize="15"/>
-                              </StackPanel>
+                              <ListBox x:Name="TaskListBox">
+                                  <ListBox.ItemTemplate>
+                                      <DataTemplate>
+                                          <StackPanel Orientation="Horizontal">
+                                              <Image Width="50" Height="50">
+                                                  <Image.Source>
+                                                      <BitmapImage UriSource="{Binding ImagePath}" />
+                                                  </Image.Source>
+                                              </Image>
+                                              <TextBlock Text="{Binding TaskDescription}" Margin="5,0"/>
+                                          </StackPanel>
+                                      </DataTemplate>
+                                  </ListBox.ItemTemplate>
+                              </ListBox>
                          </ScrollViewer>
                     </Grid>
                </Border>
