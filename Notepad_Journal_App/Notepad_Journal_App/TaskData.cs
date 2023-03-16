@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Notepad_Journal_App
 {
-    internal class TaskData
+    public class TaskData
     {
           public string ImagePath { get; set; }
           public DateTime DueDate { get; set; }
