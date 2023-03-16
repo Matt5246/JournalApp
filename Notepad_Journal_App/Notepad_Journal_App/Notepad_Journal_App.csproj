@@ -75,6 +75,7 @@
     </ApplicationDefinition>
     <Compile Include="task.cs" />
     <Compile Include="TaskData.cs" />
+    <Compile Include="TaskManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>

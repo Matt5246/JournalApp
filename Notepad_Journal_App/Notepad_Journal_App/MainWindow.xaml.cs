@@ -65,32 +65,36 @@ namespace Notepad_Journal_App
             public string TaskDescription { get; set; }
         }
 
-        private void MenuBackground_Click(object sender, RoutedEventArgs e)
-        {
-            MenuItem menuItem = e.Source as MenuItem;
-            if (menuItem.Header.ToString() == "Mint")
-            {
-                this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
-            }
-            else if (menuItem.Header.ToString() == "Light Blue")
-            {
-                this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
-            }
-            else if (menuItem.Header.ToString() == "Grey")
-            {
-                this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
-            }
-            else if (menuItem.Header.ToString() == "White")
-            {
-                this.Background = Brushes.White;
-            }
-            else if (menuItem.Header.ToString() == "Blue")
-            {
-                this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
-            }
-
-        }
-        private void MenuFontColor_Click(object sender, RoutedEventArgs e)
+          private void MenuBackground_Click(object sender, RoutedEventArgs e)
+          {
+               MenuItem menuItem = e.Source as MenuItem;
+               if (menuItem.Header.ToString() == "Mint")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+               }
+               else if (menuItem.Header.ToString() == "Light Blue")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
+                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
+               }
+               else if (menuItem.Header.ToString() == "Grey")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+               }
+               else if (menuItem.Header.ToString() == "White")
+               {
+                    this.Background = Brushes.White;
+                    TaskListBox.Background = Brushes.White;
+               }
+               else if (menuItem.Header.ToString() == "Blue")
+               {
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
+                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
+               }
+          }
+          private void MenuFontColor_Click(object sender, RoutedEventArgs e)
         {
             MenuItem item = sender as MenuItem;
             if (item != null)
