@@ -40,11 +40,18 @@
                     <ColumnDefinition Width="3*" />
                     <ColumnDefinition Width="1.7*" />
                </Grid.ColumnDefinitions>
+               
 
                <!-- First Column with Scrollbar -->
                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
+                    
                <Grid Grid.Column="0">
-               <ScrollViewer VerticalScrollBarVisibility="Auto">
+                         <Grid.RowDefinitions>
+                              <RowDefinition Height="35" />
+                              <RowDefinition Height="*" />
+                         </Grid.RowDefinitions>
+                         <TextBlock Grid.Row="0" Text="To do:" FontWeight="Bold" FontSize="16" Margin="0 0 0 10"/>
+                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1">
                     <ListBox x:Name="TaskListBox">
                     <ListBox.ItemTemplate>
                          <DataTemplate>
@@ -54,7 +61,11 @@
                                         <BitmapImage UriSource="{Binding ImagePath}" />
                                    </Image.Source>
                                    </Image>
-                                   <TextBlock Text="{Binding TaskDescription}" Margin="5,0"/>
+                                   <StackPanel>
+                                        <TextBlock Text="{Binding TaskDescription}" Margin="5,0"/>
+                                        <TextBlock Text="{Binding DueDate}" Margin="5,0"/>
+                                   </StackPanel>
+                                   <Button Content="Delete" Margin="5,0" Command="{Binding DeleteCommand}"/>
                               </StackPanel>
                          </DataTemplate>
                     </ListBox.ItemTemplate>

@@ -24,10 +24,10 @@ namespace Notepad_Journal_App
         {
             InitializeComponent();
             DataContext = new MyViewModel();
-            DataContext = new TaskData();
-
             TaskManager taskManager = new TaskManager();
 
+            this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+            TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
             TaskListBox.ItemsSource = taskManager.Tasks;
         }
 
@@ -71,9 +71,7 @@ namespace Notepad_Journal_App
             MenuItem item = sender as MenuItem;
             if (item != null)
             {
-                string color = item.Header.ToString(); // get the selected color from the MenuItem header
-
-                // set the font color of the application
+                string color = item.Header.ToString();
                 SolidColorBrush brush = new SolidColorBrush();
                 switch (color)
                 {
@@ -95,11 +93,10 @@ namespace Notepad_Journal_App
                     default:
                         break;
                 }
-                // create a new style for TextBlock elements
+
                 Style style = new Style(typeof(TextBlock));
                 style.Setters.Add(new Setter(TextBlock.ForegroundProperty, brush));
 
-                // apply the style to all TextBlock elements in the application
                 Application.Current.Resources[typeof(TextBlock)] = style;
             }
         }
@@ -129,7 +126,6 @@ namespace Notepad_Journal_App
             Style style = new Style(typeof(TextBlock));
             style.Setters.Add(new Setter(TextBlock.FontSizeProperty, size));
 
-            // apply the style to all TextBlock elements in the application
             Application.Current.Resources[typeof(TextBlock)] = style;
         }
         private void BrowseButton_Click(object sender, RoutedEventArgs e)
@@ -190,24 +186,27 @@ namespace Notepad_Journal_App
         }
         private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
         {
-            // Collect the form data
-            var taskData = new TaskData
-            {
-                ImagePath = ImagePathTextBox.Text,
-                DueDate = (DateTime)DatePicker.SelectedDate,
-                TaskDescription = TaskDescriptionTextBox.Text
-            };
+            //// Collect the form data
+            //var taskData = new TaskData
+            //{
 
-            // Get the TaskManager instance
-            TaskManager taskManager = new TaskManager();
+            //    ImagePath = ImagePathTextBox.Text,
+            //    DueDate = (DateTime)DatePicker.SelectedDate,
+            //    TaskDescription = TaskDescriptionTextBox.Text
 
-            // Add the new task to the list of tasks
-            taskManager.AddTask(taskData);
-            TaskListBox.ItemsSource = taskManager.Tasks;
+            //};
 
-            // Clear the text box and date picker
-            TaskDescriptionTextBox.Clear();
-            DatePicker.SelectedDate = null;
+            //// Get the TaskManager instance
+            //TaskManager taskManager = new TaskManager();
+
+            //// Add the new task to the list of tasks
+            //taskManager.AddTask(taskData);
+            //TaskListBox.ItemsSource = taskManager.Tasks;
+
+            //// Clear the text box and date picker
+            //TaskDescriptionTextBox.Clear();
+            //DatePicker.SelectedDate = null;
+
         }
 
 
