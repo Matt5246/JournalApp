@@ -49,7 +49,7 @@ namespace Notepad_Journal_App
 
           private void SaveTasksToFile()
           {
-               string tasksJson = JsonConvert.SerializeObject(tasks);
+               string tasksJson = JsonConvert.SerializeObject(tasks, Formatting.Indented);
                File.WriteAllText(FilePath, tasksJson);
           }
 
