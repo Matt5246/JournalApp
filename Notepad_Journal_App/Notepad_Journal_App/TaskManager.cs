@@ -9,7 +9,7 @@ namespace Notepad_Journal_App
 {
      public class TaskManager
      {
-          private const string FilePath = @"C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json";
+          private const string FilePath = @"C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json";
 
           private ObservableCollection<TaskData> tasks = new ObservableCollection<TaskData>();
 
@@ -31,6 +31,18 @@ namespace Notepad_Journal_App
                {
                     string tasksJson = File.ReadAllText(FilePath);
                     tasks = JsonConvert.DeserializeObject<ObservableCollection<TaskData>>(tasksJson);
+                    // Sort tasks by due date
+                    tasks = new ObservableCollection<TaskData>(tasks.OrderBy(t => t.DueDate));
+                    foreach (var task in tasks)
+                    {
+                         task.DeleteCommand = new RelayCommand(param =>
+                         {
+                              if (this != null)
+                              {
+                                   this.RemoveTaskById(task.ID);
+                              }
+                         });
+                    }
                }
                catch (Exception ex)
                {
@@ -38,8 +50,6 @@ namespace Notepad_Journal_App
                     Console.WriteLine("An error occurred while loading tasks from file:");
                     Console.WriteLine(ex.ToString());
 
-                    // Create a new empty tasks collection
-                    tasks = new ObservableCollection<TaskData>();
                }
           }
 
@@ -52,16 +62,21 @@ namespace Notepad_Journal_App
           {
                string tasksJson = JsonConvert.SerializeObject(tasks, Formatting.Indented);
                File.WriteAllText(FilePath, tasksJson);
+               
           }
 
           public void AddTask(TaskData task)
           {
                tasks.Add(task);
+               tasks.CollectionChanged += Tasks_CollectionChanged;
+               LoadTasksFromFile();
           }
 
           public void RemoveTask(TaskData task)
           {
                tasks.Remove(task);
+
+               tasks.CollectionChanged += Tasks_CollectionChanged;
           }
           public void RemoveTaskById(string id)
           {
@@ -70,6 +85,8 @@ namespace Notepad_Journal_App
                {
                     tasks.Remove(taskToRemove);
                }
+
+               tasks.CollectionChanged += Tasks_CollectionChanged;
           }
      }
 }

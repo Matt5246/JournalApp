@@ -73,9 +73,13 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="JournalData.cs" />
+    <Compile Include="JournalManager.cs" />
     <Compile Include="task.cs" />
     <Compile Include="TaskData.cs" />
     <Compile Include="TaskManager.cs" />
+    <Compile Include="ToDoListData.cs" />
+    <Compile Include="ToDoListManager.cs" />
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
