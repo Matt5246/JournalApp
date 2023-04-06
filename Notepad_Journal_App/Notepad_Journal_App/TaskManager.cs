@@ -3,6 +3,7 @@ using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.IO;
+using System.Linq;
 
 namespace Notepad_Journal_App
 {
@@ -61,6 +62,14 @@ namespace Notepad_Journal_App
           public void RemoveTask(TaskData task)
           {
                tasks.Remove(task);
+          }
+          public void RemoveTaskById(string id)
+          {
+               var taskToRemove = tasks.FirstOrDefault(task => task.ID == id);
+               if (taskToRemove != null)
+               {
+                    tasks.Remove(taskToRemove);
+               }
           }
      }
 }
