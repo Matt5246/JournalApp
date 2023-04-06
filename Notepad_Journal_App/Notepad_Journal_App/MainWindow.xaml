@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:Notepad_Journal_App"
         
         mc:Ignorable="d"
-        Title="JournalApp" Height="450" Width="800" MinHeight="550" MinWidth="1200">
+        Title="OrganizerApp" Height="450" Width="800" MinHeight="550" MinWidth="1200">
      <DockPanel>
 
           <!-- Menu Bar -->
@@ -65,7 +65,7 @@
                                         <TextBlock Text="{Binding TaskDescription}" Margin="5,0"/>
                                         <TextBlock Text="{Binding DueDate}" Margin="5,0"/>
                                    </StackPanel>
-                                   <Button Content="Delete" Margin="5,0" Command="{Binding DeleteCommand}"/>
+                                   <Button Content="Delete" Margin="5,0" Command="{Binding DeleteCommand}" CommandParameter="{Binding ID}"/>
                               </StackPanel>
                          </DataTemplate>
                     </ListBox.ItemTemplate>
@@ -209,8 +209,21 @@
                                    <TextBox x:Name="TaskDescriptionTextBox" Grid.Row="6" Grid.Column="1" Margin="0 10 0 0" Width="200"/>
 
                                    <!-- Submit Button -->
-                                   <Button Content="Submit Task" Margin="0 10 0 0" Grid.Row="7" Grid.ColumnSpan="2" Click="SubmitTaskButton_Click" />
-
+                                   <Button Content="Submit Task" Margin="0 10 0 0" Grid.Row="7" Grid.ColumnSpan="2" Click="SubmitTaskButton_Click">
+                                        <Button.Style>
+                                             <Style TargetType="Button">
+                                                  <Style.Triggers>
+                                                       <DataTrigger Binding="{Binding ElementName=DatePicker, Path=SelectedDate}" Value="{x:Null}">
+                                                            <Setter Property="IsEnabled" Value="False" />
+                                                       </DataTrigger>
+                                                       
+                                                       <DataTrigger Binding="{Binding ElementName=DatePicker, Path=SelectedDate}" Value="">
+                                                            <Setter Property="IsEnabled" Value="True" />
+                                                       </DataTrigger>
+                                                  </Style.Triggers>
+                                             </Style>
+                                        </Button.Style>
+                                   </Button>
                               </Grid>
 
                          </Grid>

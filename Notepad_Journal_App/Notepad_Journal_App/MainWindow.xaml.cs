@@ -15,16 +15,18 @@ namespace Notepad_Journal_App
     {
         private const string FilePath = @"C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json";
 
-        public string ImagePath { get; private set; }
+          public string ImagePath { get; private set; }
 
-        ObservableCollection<TaskData> tasks = new ObservableCollection<TaskData>();
+          private TaskManager taskManager;
+
+          ObservableCollection<TaskData> tasks = new ObservableCollection<TaskData>();
 
 
         public MainWindow()
         {
             InitializeComponent();
             DataContext = new MyViewModel();
-            TaskManager taskManager = new TaskManager();
+            taskManager = new TaskManager();
 
             this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
             TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
@@ -185,30 +187,26 @@ namespace Notepad_Journal_App
             DialogResult = false;
         }
         private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
-        {
-            //// Collect the form data
-            //var taskData = new TaskData
-            //{
+          {
+               // Collect the form data
+               var taskData = new TaskData(taskManager)
+               {
+                    ImagePath = ImagePathTextBox.Text,
+                    DueDate = (DateTime)DatePicker.SelectedDate,
+                    TaskDescription = TaskDescriptionTextBox.Text,
+                    ID = Guid.NewGuid().ToString()
+               };
 
-            //    ImagePath = ImagePathTextBox.Text,
-            //    DueDate = (DateTime)DatePicker.SelectedDate,
-            //    TaskDescription = TaskDescriptionTextBox.Text
+               // Add the new task to the list of tasks
+               taskManager.AddTask(taskData);
+               TaskListBox.ItemsSource = taskManager.Tasks;
 
-            //};
+               // Clear the text box and date picker
+               TaskDescriptionTextBox.Clear();
+               DatePicker.SelectedDate = null;
 
-            //// Get the TaskManager instance
-            //TaskManager taskManager = new TaskManager();
-
-            //// Add the new task to the list of tasks
-            //taskManager.AddTask(taskData);
-            //TaskListBox.ItemsSource = taskManager.Tasks;
-
-            //// Clear the text box and date picker
-            //TaskDescriptionTextBox.Clear();
-            //DatePicker.SelectedDate = null;
-
-        }
+          }
 
 
-    }
+     }
 }
