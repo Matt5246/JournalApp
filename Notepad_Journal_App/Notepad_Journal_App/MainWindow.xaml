@@ -129,22 +129,23 @@
                                         <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
                                    </StackPanel>
                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <TextBox Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                        <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0" />
+                                        <TextBox x:Name="JournalTitleTextBox" Margin="0 10 10 0" MinWidth="200" Height="19"/>
                                         <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <DatePicker Margin="0 10 10 0"/>
+                                        <DatePicker x:Name="JournalDatePicker" Margin="0 10 10 0"/>
                                         <TextBlock Text="Mood:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <ComboBox Margin="0 10 0 0">
+                                        <ComboBox x:Name="MoodComboBox" Margin="0 10 0 0">
                                              <ComboBoxItem Content="Happy" />
                                              <ComboBoxItem Content="Sad" />
                                              <ComboBoxItem Content="Angry" />
                                              <ComboBoxItem Content="Stressed" />
                                         </ComboBox>
-                                        <Button Content="Save" Margin="10 10 0 0" Height="21"/>
+                                        <Button x:Name="JournalSaveButton" Content="Save" Margin="10 10 0 0" Height="21" Click="Journal_Button_Click"/>
                                    </StackPanel>
-                                   <TextBox TextWrapping="Wrap" Height="110" AcceptsReturn="True" Margin="0 10 0 0" />
+                                   <TextBox x:Name="JournalEntryTextBox" TextWrapping="Wrap" Height="110" AcceptsReturn="True" Margin="0 10 0 0" />
                                    <Image x:Name="ImagePreview" Stretch="Uniform" Source="myImage.png"/>
                               </StackPanel>
+                              
                               <TextBlock Text="To do list:" FontWeight="Bold" FontSize="15"/>
                               <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
                               <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>

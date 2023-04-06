@@ -20,8 +20,8 @@ namespace Notepad_Journal_App
 
           public string ImagePath { get; private set; }
 
-          private TaskManager taskManager;
-
+          private readonly DataManager<TaskData> taskManager;
+          private readonly DataManager<JournalData> journalDataManager;
 
           public DateTime CurrentDate => DateTime.Now;
 
@@ -29,11 +29,14 @@ namespace Notepad_Journal_App
           {
                InitializeComponent();
                DataContext = new MyViewModel();
-               taskManager = new TaskManager();
+               taskManager = new DataManager<TaskData>(@"C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json");
+               journalDataManager = new DataManager<JournalData>(@"C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\journalData.json");
+
 
                this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
                TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
-               TaskListBox.ItemsSource = taskManager.Tasks;
+               TaskListBox.ItemsSource = taskManager.Data;
+
           }
 
           public class MyViewModel
@@ -192,7 +195,7 @@ namespace Notepad_Journal_App
           private void SubmitTaskButton_Click(object sender, RoutedEventArgs e)
           {
                // Collect the form data
-               var taskData = new TaskData(taskManager)
+               var taskData = new TaskData
                {
                     ImagePath = ImagePathTextBox.Text,
                     DueDate = (DateTime)DatePicker.SelectedDate,
@@ -201,16 +204,40 @@ namespace Notepad_Journal_App
                };
 
                // Add the new task to the list of tasks
-               taskManager.AddTask(taskData);
-               TaskListBox.ItemsSource = taskManager.Tasks;
+               taskManager.Add(taskData);
+               TaskListBox.ItemsSource = taskManager.Data;
 
                // Clear the text box and date picker
                TaskDescriptionTextBox.Clear();
                DatePicker.SelectedDate = null;
-
           }
 
+          private void Journal_Button_Click(object sender, RoutedEventArgs e)
+          {
+               // Get the values from the input controls
+               string title = JournalTitleTextBox.Text;
+               DateTime date = JournalDatePicker.SelectedDate.Value;
+               string mood = ((ComboBoxItem)MoodComboBox.SelectedItem).Content.ToString();
+               string entry = JournalEntryTextBox.Text;
 
+               // Create a new journal entry
+               JournalData newEntry = new JournalData
+               {
+                    Title = title,
+                    Date = date,
+                    Mood = mood,
+                    Entry = entry
+               };
+
+               // Add the new entry to the data manager
+               journalDataManager.Add(newEntry);
+
+               // Clear the input controls
+               JournalTitleTextBox.Text = "";
+               JournalDatePicker.SelectedDate = null;
+               MoodComboBox.SelectedIndex = -1;
+               JournalEntryTextBox.Text = "";
+          }
      }
      public class DateTimeToBooleanConverter : IValueConverter
      {
@@ -230,7 +257,7 @@ namespace Notepad_Journal_App
                {
                     return overdue;
                }
-               else if (dueDate < DateTime.Now.AddDays(10) & dueDate > DateTime.Now)
+               else if (dueDate < DateTime.Now.AddDays(7) & dueDate > DateTime.Now)
                {
                     return other;
                }

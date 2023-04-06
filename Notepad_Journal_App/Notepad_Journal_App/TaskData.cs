@@ -50,20 +50,9 @@ namespace Notepad_Journal_App
                set { deleteCommand = value; OnPropertyChanged(); }
           }
 
-          public TaskData(TaskManager taskManager)
+          public TaskData()
           {
-               ID = id;
-               DeleteCommand = new RelayCommand(param =>
-               {
-                    if (taskManager != null)
-                    {
-                         taskManager.RemoveTaskById(ID);
-                    }
-                    else
-                    {
-                         Console.WriteLine("Delete command problem here!");
-                    }
-               });
+               // Parameterless constructor for creating new instances of TaskData
           }
 
           protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
