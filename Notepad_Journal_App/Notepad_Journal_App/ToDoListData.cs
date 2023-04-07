@@ -17,12 +17,13 @@ namespace Notepad_Journal_App
                get { return id; }
                set { id = value; }
           }
+
      }
      public class TodayTaskData
      {
           private string id;
           public string Description { get; set; }
-          public DateTime DueDate { get; set; }
+          public bool IsCompleted { get; set; }
           public string ID
           {
                get { return id; }

@@ -8,6 +8,7 @@ using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace Notepad_Journal_App
 {
@@ -16,15 +17,12 @@ namespace Notepad_Journal_App
      /// </summary>
      public partial class MainWindow : Window
      {
-          private const string FilePath = @"C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json";
-
           public string ImagePath { get; private set; }
-
-          private string _BgColor = "#CBE4DE";
-          public string BgColor { get { return _BgColor; } set { _BgColor=value; } }
 
           private readonly DataManager<TaskData> taskManager;
           private readonly DataManager<JournalData> journalDataManager;
+          private readonly DataManager<TodayTaskData> dailyTasksManager;
+          private readonly DataManager<ToDoListData> toDoListDataManager;
 
           public DateTime CurrentDate => DateTime.Now;
 
@@ -32,54 +30,129 @@ namespace Notepad_Journal_App
           {
                InitializeComponent();
                DataContext = new MyViewModel();
-               taskManager = new DataManager<TaskData>(@"C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\tasks.json");
-               journalDataManager = new DataManager<JournalData>(@"C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\journalData.json");
-
+               
+               //Console.WriteLine(Path.Combine(dataFolderPathWithDoubleBackslashes, "journal.json")); //Path.Combine(dataFolderPathWithDoubleBackslashes, "\journal.json");
+               taskManager = new DataManager<TaskData>("C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\Data\\tasks.json");
+               journalDataManager = new DataManager<JournalData>("C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\Data\\journal.json");
+               dailyTasksManager = new DataManager<TodayTaskData>("C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\Data\\dailyTasks.json");
+               toDoListDataManager = new DataManager<ToDoListData>("C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\Data\\toDoList.json");
 
                TaskListBox.ItemsSource = taskManager.Data;
                JournalListBox.ItemsSource = journalDataManager.Data;
-               BackGroundChange();
-          }
+               ToDoListBox.ItemsSource = toDoListDataManager.Data;
+               DailyTaskListBox.ItemsSource = dailyTasksManager.Data;
 
-          public class MyViewModel
-          {
-               public DateTime DueDate { get; set; }
-               public string TaskDescription { get; set; }
+               // Loading the background colors
+               string bgColor1 = Properties.Settings.Default.BackgroundColor1;
+               string bgColor2 = Properties.Settings.Default.BackgroundColor2;
+               int FontSize = Properties.Settings.Default.FontSize;
+               BackGroundChange(bgColor1, bgColor2);
+               SetTextBlockFontSize(FontSize);
           }
-
           private void MenuBackground_Click(object sender, RoutedEventArgs e)
           {
                MenuItem menuItem = e.Source as MenuItem;
-               if (menuItem.Header.ToString() == "Mint")
-               {
-                    BgColor="#CBE4DE";
-               }
-               else if (menuItem.Header.ToString() == "Light Blue")
-               {
-                    BgColor="#E3F6FF";
-               }
-               else if (menuItem.Header.ToString() == "Grey")
-               {
-                    BgColor="#EEEEEE";
-               }
-               else if (menuItem.Header.ToString() == "White")
-               {
-                    BgColor="#FFFFFF";
-               }
-               else if (menuItem.Header.ToString() == "Blue")
-               {
-                    BgColor="#3A98B9";
-               }
-               BackGroundChange();
+               string startColor, endColor;
 
+               switch (menuItem.Header.ToString())
+               {
+                    case "Mint":
+                         startColor = "#CBE4DE";
+                         endColor = "#C1F2D1";
+                         break;
+                    case "Light Blue":
+                         startColor = "#E3F6FF";
+                         endColor = "#BFE9FF";
+                         break;
+                    case "Grey":
+                         startColor = "#EEEEEE";
+                         endColor = "#E0E0E0";
+                         break;
+                    case "White":
+                         startColor = "#FFFFFF";
+                         endColor = "#F7F7F7";
+                         break;
+                    case "Yellow":
+                         startColor = "#FCE38A";
+                         endColor = "#F38181";
+                         break;
+                    case "Pink":
+                         startColor = "#FFAFCC";
+                         endColor = "#FFC8A2";
+                         break;
+                    case "Purple":
+                         startColor = "#A09ABC";
+                         endColor = "#F7CAC9";
+                         break;
+                    case "Green":
+                         startColor = "#9BE7A3";
+                         endColor = "#00A896";
+                         break;
+                    case "Orange":
+                         startColor = "#FFB86F";
+                         endColor = "#FFA69E";
+                         break;
+                    case "Blue":
+                         startColor = "#98D9EA";
+                         endColor = "#6FB1C1";
+                         break;
+                    case "Turquoise":
+                         startColor = "#AFDFD9";
+                         endColor = "#BEE7E9";
+                         break;
+                    case "Coral":
+                         startColor = "#FF847C";
+                         endColor = "#E84A5F";
+                         break;
+                    case "Lavender":
+                         startColor = "#D7BDE2";
+                         endColor = "#FADBD8";
+                         break;
+                    case "Salmon":
+                         startColor = "#F1948A";
+                         endColor = "#F5B7B1";
+                         break;
+                    case "Light Green":
+                         startColor = "#A2D9CE";
+                         endColor = "#E9D8A6";
+                         break;
+                    case "Teal":
+                         startColor = "#80CED7";
+                         endColor = "#0077B6";
+                         break;
+                    case "Beige":
+                         startColor = "#F5DEB3";
+                         endColor = "#D2B48C";
+                         break;
+                    default:
+                         startColor = "#FFFFFF";
+                         endColor = "#F7F7F7";
+                         break;
+               }
+
+               BackGroundChange(startColor, endColor);
+               // Saving the background colors
+               Properties.Settings.Default.BackgroundColor1 = startColor; // Replace with your first color
+               Properties.Settings.Default.BackgroundColor2 = endColor; // Replace with your second color
+               Properties.Settings.Default.Save();
+
+               // Loading the background colors
+               string bgColor1 = Properties.Settings.Default.BackgroundColor1;
+               string bgColor2 = Properties.Settings.Default.BackgroundColor2;
+               BackGroundChange(bgColor1, bgColor2); // Call your function with both colors
           }
-          private void BackGroundChange()
+
+          private void BackGroundChange(string startColor, string endColor)
           {
+               LinearGradientBrush gradientBrush = new LinearGradientBrush();
+               gradientBrush.StartPoint = new Point(0, 0);
+               gradientBrush.EndPoint = new Point(1, 1);
+               gradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString(startColor), 0));
+               gradientBrush.GradientStops.Add(new GradientStop((Color)ColorConverter.ConvertFromString(endColor), 1));
 
-               this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
-               TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
-               JournalListBox.Background=  new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
+               this.Background = gradientBrush;
           }
+
           private void MenuFontColor_Click(object sender, RoutedEventArgs e)
           {
                MenuItem item = sender as MenuItem;
@@ -123,17 +196,21 @@ namespace Notepad_Journal_App
                {
                     case "small":
                          SetTextBlockFontSize(12);
+                         Properties.Settings.Default.FontSize = 12;
                          break;
                     case "medium":
                          SetTextBlockFontSize(16);
+                         Properties.Settings.Default.FontSize = 16;
                          break;
                     case "large":
                          SetTextBlockFontSize(20);
+                         Properties.Settings.Default.FontSize = 20;
                          break;
                     default:
                          break;
                }
 
+               Properties.Settings.Default.Save();
           }
           private void SetTextBlockFontSize(double size)
           {
@@ -230,7 +307,7 @@ namespace Notepad_Journal_App
                JournalData newEntry = new JournalData
                {
                     Title = title,
-                    Date = date,
+                    DueDate = date,
                     Mood = mood,
                     Entry = entry
                };
@@ -244,38 +321,52 @@ namespace Notepad_Journal_App
                MoodComboBox.SelectedIndex = -1;
                JournalEntryTextBox.Text = "";
           }
-     }
-     public class DateTimeToBooleanConverter : IValueConverter
-     {
-          public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
+
+          private void ToDoList_Button_Click(object sender, RoutedEventArgs e)
           {
-               var today = "Green";
-               var overdue = "Red";
-               var other = "Yellow";
+               // Get the task and due date from the text box and date picker
+               string task = ToDoListTitleTextBox.Text;
+               DateTime? dueDate = ToDoListDatePicker.SelectedDate.Value;
 
-               DateTime dueDate = (DateTime)value;
+               // Make sure the task text box is not empty
+               if (!string.IsNullOrWhiteSpace(task))
+               {
+                    // Create a new task item and add it to the data manager
+                    ToDoListData newTask = new ToDoListData
+                    {
 
-               if (dueDate.Date == DateTime.Now.Date)
-               {
-                    return today;
-               }
-               else if (dueDate < DateTime.Now)
-               {
-                    return overdue;
-               }
-               else if (dueDate < DateTime.Now.AddDays(7) & dueDate > DateTime.Now)
-               {
-                    return other;
-               }
-               else
-               {
-                    return false;
+                         Task = task,
+                         DueDate = dueDate ?? DateTime.MinValue,
+                         ID = Guid.NewGuid().ToString(),
+                         IsCompleted= false
+
+                    };
+                    toDoListDataManager.Add(newTask);
+
+                    // Clear the text box and date picker
+                    ToDoListTitleTextBox.Text = string.Empty;
+                    ToDoListDatePicker.SelectedDate = null;
                }
           }
 
-          public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
+          private void DailyTasks_Button_Click(object sender, RoutedEventArgs e)
           {
-               throw new NotImplementedException();
+               string description = TodayTaskTextBox.Text;
+               if (!string.IsNullOrWhiteSpace(description))
+               {
+                    // Create a new task item and add it to the data manager
+                    TodayTaskData newTask = new TodayTaskData
+                    {
+                         Description = description,
+                         ID = Guid.NewGuid().ToString(),
+                         IsCompleted= false
+                    };
+                    dailyTasksManager.Add(newTask);
+
+                    // Clear the text box and date picker
+                    TodayTaskTextBox.Text = string.Empty;
+               }
           }
+
      }
 }

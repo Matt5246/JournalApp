@@ -31,40 +31,44 @@ namespace Notepad_Journal_App
                try
                {
                     string jsonData = File.ReadAllText(_filePath);
-                    var deserializedData = JsonConvert.DeserializeObject<ObservableCollection<T>>(jsonData);
-                    var dueDateProp = typeof(T).GetProperty("DueDate");
-                    if (dueDateProp != null)
+                    if (JsonConvert.DeserializeObject<ObservableCollection<T>>(jsonData) != null)
                     {
-                         deserializedData = new ObservableCollection<T>(deserializedData.OrderBy(t => dueDateProp.GetValue(t, null)));
-                    }
-
-                    var idProp = typeof(T).GetProperty("ID");
-                    if (idProp != null)
-                    {
-                         foreach (var item in deserializedData)
+                         var deserializedData = JsonConvert.DeserializeObject<ObservableCollection<T>>(jsonData);
+                         var dueDateProp = typeof(T).GetProperty("DueDate");
+                         if (dueDateProp != null)
                          {
-                              var deleteCommandProp = typeof(T).GetProperty("DeleteCommand");
-                              if (deleteCommandProp != null)
-                              {
-                                   var deleteCommand = new RelayCommand(param =>
-                                   {
-                                        if (this != null)
-                                        {
-                                             var idValue = idProp.GetValue(item)?.ToString();
-                                             if (!string.IsNullOrEmpty(idValue))
-                                             {
-                                                  this.RemoveTaskById(idValue);
-                                             }
-                                        }
-                                   });
+                              deserializedData = new ObservableCollection<T>(deserializedData.OrderBy(t => dueDateProp.GetValue(t, null)));
+                         }
 
-                                   deleteCommandProp.SetValue(item, deleteCommand);
+                         var idProp = typeof(T).GetProperty("ID");
+                         if (idProp != null)
+                         {
+                              foreach (var item in deserializedData)
+                              {
+                                   var deleteCommandProp = typeof(T).GetProperty("DeleteCommand");
+                                   if (deleteCommandProp != null)
+                                   {
+                                        var deleteCommand = new RelayCommand(param =>
+                                        {
+                                             if (this != null)
+                                             {
+                                                  var idValue = idProp.GetValue(item)?.ToString();
+                                                  if (!string.IsNullOrEmpty(idValue))
+                                                  {
+                                                       this.RemoveTaskById(idValue);
+                                                  }
+                                             }
+                                        });
+
+                                        deleteCommandProp.SetValue(item, deleteCommand);
+                                   }
                               }
                          }
+
+
+                         return new ObservableCollection<T>(deserializedData);
                     }
-
-
-                    return new ObservableCollection<T>(deserializedData);
+                    return new ObservableCollection<T>(JsonConvert.DeserializeObject<ObservableCollection<T>>(jsonData));
                }
                catch (Exception ex)
                {

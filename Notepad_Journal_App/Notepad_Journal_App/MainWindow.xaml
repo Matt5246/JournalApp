@@ -15,10 +15,22 @@
           <Menu DockPanel.Dock="Top">
                <MenuItem Header="Background Color">
                     <MenuItem Header="Mint" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Turquoise" Click="MenuBackground_Click"/>
                     <MenuItem Header="Light Blue" Click="MenuBackground_Click"/>
-                    <MenuItem Header="Grey" Click="MenuBackground_Click"/>
                     <MenuItem Header="Blue" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Teal" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Yellow" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Orange" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Coral" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Purple" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Lavender" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Salmon" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Pink" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Light Green" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Green" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Beige" Click="MenuBackground_Click"/>
                     <MenuItem Header="White" Click="MenuBackground_Click"/>
+                    <MenuItem Header="Grey" Click="MenuBackground_Click"/>
                </MenuItem>
                <MenuItem Header="Font Color">
                     <MenuItem Header="Mint" Click="MenuFontColor_Click"/>
@@ -55,8 +67,8 @@
                               <ColumnDefinition Width="*" />
                          </Grid.ColumnDefinitions>
                          <TextBlock Grid.Row="0" Text="To do soon:" FontWeight="Bold" FontSize="16" Margin="10 5 0 0"/>
-                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
-                              <ListBox x:Name="TaskListBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0" Width="263">
+                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1" CanContentScroll="True">
+                              <ListBox Background="Transparent" x:Name="TaskListBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0" Width="263">
                                    <ListBox.ItemTemplate>
                                         <DataTemplate >
                                              <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
@@ -100,7 +112,7 @@
 
                <Grid Grid.Column="1" RenderTransformOrigin="0.499,0.515">
 
-                    <ScrollViewer VerticalScrollBarVisibility="Auto">
+                    <ScrollViewer VerticalScrollBarVisibility="Auto" CanContentScroll="True" >
                          <StackPanel Margin="10">
                               <StackPanel Orientation="Horizontal">
                                    <TextBlock x:Name="TitleText" Text="To do list:" FontWeight="Bold" FontSize="15"/>
@@ -108,19 +120,18 @@
                               </StackPanel>
                               <StackPanel Orientation="Horizontal">
                                    <TextBlock Text="Task:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                   <TextBox Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                   <TextBox x:Name="ToDoListTitleTextBox" Margin="0 10 10 0" MinWidth="200" Height="19"/>
                                    <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                   <DatePicker Margin="0 10 10 0"/>
-                                   <Button Content="Save" Margin="10 10 0 0"/>
+                                   <DatePicker x:Name="ToDoListDatePicker" Margin="0 10 10 0"/>
+                                   <Button Content="Save" Margin="10 10 0 0" Click="ToDoList_Button_Click"/>
                               </StackPanel>
 
                               <StackPanel Orientation="Horizontal">
                                    <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
-
                               </StackPanel>
                               <StackPanel Orientation="Horizontal">
-                                   <TextBox TextWrapping="Wrap" MinWidth="200" AcceptsReturn="True" Margin="10 10 0 0" />
-                                   <Button Content="Submit" Margin="10 10 0 0"/>
+                                   <TextBox x:Name="TodayTaskTextBox" TextWrapping="Wrap" MinWidth="200" AcceptsReturn="True" Margin="10 10 0 0" />
+                                   <Button Content="Submit" Click="DailyTasks_Button_Click" Margin="10 10 0 0"/>
                               </StackPanel>
 
 
@@ -130,7 +141,7 @@
                                    </StackPanel>
                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0" />
-                                        <TextBox x:Name="JournalTitleTextBox" Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                        <TextBox  x:Name="JournalTitleTextBox" Margin="0 10 10 0" MinWidth="200" Height="19"/>
                                         <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
                                         <DatePicker x:Name="JournalDatePicker" Margin="0 10 10 0"/>
                                         <TextBlock Text="Mood:" FontWeight="Bold" Margin="0 10 10 0"/>
@@ -147,14 +158,57 @@
                               </StackPanel>
                               
                               <TextBlock Text="To do list:" FontWeight="Bold" FontSize="15"/>
+                              <ListBox x:Name="ToDoListBox" Background="Transparent" Margin="10 10 0 10" >
+                                   <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                             <StackPanel>
+                                                  <TextBlock Text="{Binding Task}" FontWeight="Bold"/>
+                                                  <TextBlock Text="{Binding DueDate}" FontStyle="Italic"/>
+                                                  <TextBlock Text="{Binding IsCompleted}"/>
+                                             </StackPanel>
+                                        </DataTemplate>
+                                   </ListBox.ItemTemplate>
+                              </ListBox>
                               <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
+                              <ListBox x:Name="DailyTaskListBox" Background="Transparent" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Bottom" Margin="10 10 0 10">
+                                   <ListBox.ItemContainerStyle>
+                                        <Style TargetType="ListBoxItem">
+                                             <Setter Property="Margin" Value="0 0 0 0"/>
+                                        </Style>
+                                   </ListBox.ItemContainerStyle>
+                                   <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                             <Grid HorizontalAlignment="Left" Margin="0,0,0,10">
+                                                  <Grid.ColumnDefinitions>
+                                                       <ColumnDefinition Width="*"/>
+                                                       <ColumnDefinition Width="*"/>
+                                                       <ColumnDefinition Width="*"/>
+                                                       <ColumnDefinition Width="*"/>
+                                                       <ColumnDefinition Width="*"/>
+                                                  </Grid.ColumnDefinitions>
+                                                  
+                                                  <StackPanel Grid.Column="0"  VerticalAlignment="Bottom">
+                                                       <TextBlock Text="Task:" FontWeight="Bold" Margin="10 10 0 0"/>
+                                                  </StackPanel>
+                                                  <StackPanel Grid.Column="1"  VerticalAlignment="Bottom">
+                                                       <TextBlock Text="{Binding Description}" FontWeight="Bold" Margin="10 10 0 0"/>
+                                                  </StackPanel>
+                                                  <StackPanel Grid.Column="2"  VerticalAlignment="Bottom">
+                                                       <TextBlock Text="Is Complited:" FontWeight="Bold" Margin="10 10 0 0"/>
+                                                  </StackPanel>
+                                                  <TextBlock Grid.Column="3" Text="{Binding IsCompleted}" FontWeight="Bold" Margin="10 10 0 0"/>
+                                                  <CheckBox  VerticalAlignment="Bottom" Grid.Column="4" Background="Transparent" IsChecked="{Binding IsCompleted}" Margin="10 10 10 0"/>
+                                             </Grid>
+                                        </DataTemplate>
+                                   </ListBox.ItemTemplate>
+                              </ListBox>
                               <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
-                              <ListBox x:Name="JournalListBox">
+                              <ListBox x:Name="JournalListBox" Background="Transparent" Margin="10 10 0 10">
                                    <ListBox.ItemTemplate>
                                         <DataTemplate>
                                              <StackPanel>
                                                   <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
-                                                  <TextBlock Text="{Binding Date}" FontStyle="Italic"/>
+                                                  <TextBlock Text="{Binding DueDate}" FontStyle="Italic"/>
                                                   <TextBlock Text="{Binding Mood}"/>
                                                   <TextBlock Text="{Binding Entry}"/>
                                              </StackPanel>
@@ -176,7 +230,7 @@
                          </Grid.RowDefinitions>
 
                          <!-- calendar block content -->
-                         <Grid Grid.RowSpan="2">
+                         <Grid Grid.RowSpan="2" >
                               <Grid.RowDefinitions>
                                    <RowDefinition Height="*" />
                                    <RowDefinition Height="Auto" />
@@ -188,7 +242,7 @@
                                         <RowDefinition Height="*" />
                                    </Grid.RowDefinitions>
 
-                                   <Calendar Grid.Row="0" Margin="10" x:Name="calendar"/>
+                                   <Calendar Grid.Row="0" x:Name="calendar"/>
                               </Grid>
 
                               <!-- Task submition content -->
@@ -221,12 +275,12 @@
                                    <TextBlock Grid.Row="1" Text="Image Upload" FontSize="16" FontWeight="Bold" Margin="0 0 0 10"/>
 
                                    <StackPanel Grid.Row="2" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
-                                        <TextBlock Text="Image Path:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
-                                        <TextBox TextChanged="UploadButton_State"  x:Name="ImagePathTextBox" Width="200" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Image Path:" Width="80" FontWeight="Bold" VerticalAlignment="Center"/>
+                                        <TextBox TextChanged="UploadButton_State"  x:Name="ImagePathTextBox" Width="300"  Margin="0 10 0 0" VerticalAlignment="Center"/>
                                    </StackPanel>
 
                                    <StackPanel Grid.Row="3" Grid.ColumnSpan="2" Orientation="Horizontal" Margin="0 0 0 10">
-                                        <TextBlock Text="Image File:" FontWeight="Bold" Width="100" VerticalAlignment="Center"/>
+                                        <TextBlock Text="Image File:" FontWeight="Bold" Width="80" VerticalAlignment="Center"/>
 
                                         <StackPanel Grid.Row="4" Orientation="Horizontal">
                                              <Button x:Name="BrowseButton" Content="Browse" Margin="0 0 10 0" Click="BrowseButton_Click"/>
@@ -234,14 +288,13 @@
                                         </StackPanel>
                                    </StackPanel>
 
-
                                    <!-- Date Picker -->
                                    <TextBlock Text="Due Date:" Grid.Row="5" FontWeight="Bold" Margin="0 10 10 0" />
                                    <DatePicker  x:Name="DatePicker" Grid.Column="1" Grid.Row="5" Margin="0 10 0 0" SelectedDate="{Binding ElementName=calendar, Path=SelectedDate}" />
 
                                    <!-- Task Description -->
                                    <TextBlock Text="Task Description:" FontWeight="Bold" Margin="0 10 10 0" Grid.Row="6" />
-                                   <TextBox x:Name="TaskDescriptionTextBox" Grid.Row="6" Grid.Column="1" Margin="0 10 0 0" Width="200"/>
+                                   <TextBox x:Name="TaskDescriptionTextBox" Grid.Row="6" Grid.Column="1" Margin="0 10 0 0"/>
 
                                    <!-- Submit Button -->
                                    <Button Content="Submit Task" Margin="0 10 0 0" Grid.Row="7" Grid.ColumnSpan="2" Click="SubmitTaskButton_Click">

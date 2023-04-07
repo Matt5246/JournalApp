@@ -36,7 +36,6 @@ C:\Users\pawelniziolek\source\repos\Notepad_Journal_App\Notepad_Journal_App\bin\
 C:\Users\pawelniziolek\source\repos\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\sv\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\pawelniziolek\source\repos\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\zh-Hans\Xceed.Wpf.AvalonDock.resources.dll
 C:\Users\pawelniziolek\source\repos\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\tasks.json
-C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\tasks.json
 C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Notepad_Journal_App.exe.config
 C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Notepad_Journal_App.exe
 C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Notepad_Journal_App.pdb
@@ -113,3 +112,7 @@ C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\N
 C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\Notepad_Journal_App.exe
 C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\Notepad_Journal_App.pdb
 C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Data\tasks.json
+C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Data\journal.json
+C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Data\dailyTasks.json
+C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\bin\Debug\Data\toDoList.json
