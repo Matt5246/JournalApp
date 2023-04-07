@@ -112,3 +112,4 @@ C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\N
 C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\Notepad_Journal_App.csproj.CopyComplete
 C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\Notepad_Journal_App.exe
 C:\Users\matt5\OneDrive\Dokumenty\Github_clones\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\Notepad_Journal_App.pdb
+C:\Users\pawelniziolek\Documents\GitHub\JournalApp\Notepad_Journal_App\Notepad_Journal_App\obj\Debug\GeneratedInternalTypeHelper.g.cs

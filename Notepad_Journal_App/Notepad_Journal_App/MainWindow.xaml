@@ -4,9 +4,11 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:Notepad_Journal_App"
-        
         mc:Ignorable="d"
-        Title="OrganizerApp" Height="450" Width="800" MinHeight="550" MinWidth="1200">
+        Title="OrganizerApp" Height="450" Width="900" MinHeight="550" MinWidth="1200">
+     <Window.Resources>
+          <local:DateTimeToBooleanConverter x:Key="DateTimeToBooleanConverter" />
+     </Window.Resources>
      <DockPanel>
 
           <!-- Menu Bar -->
@@ -36,42 +38,62 @@
           <Grid>
 
                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="*" />
+                    <ColumnDefinition Width="265" />
                     <ColumnDefinition Width="3*" />
-                    <ColumnDefinition Width="1.7*" />
+                    <ColumnDefinition Width="1.3*" />
                </Grid.ColumnDefinitions>
-               
+
 
                <!-- First Column with Scrollbar -->
                <Border Grid.Column="0" BorderBrush="Black" BorderThickness="1">
-                    
-               <Grid Grid.Column="0">
+                    <Grid Grid.Column="0" HorizontalAlignment="Left" >
                          <Grid.RowDefinitions>
                               <RowDefinition Height="35" />
                               <RowDefinition Height="*" />
                          </Grid.RowDefinitions>
-                         <TextBlock Grid.Row="0" Text="To do:" FontWeight="Bold" FontSize="16" Margin="0 0 0 10"/>
-                    <ScrollViewer VerticalScrollBarVisibility="Visible" Grid.Row="1">
-                    <ListBox x:Name="TaskListBox">
-                    <ListBox.ItemTemplate>
-                         <DataTemplate>
-                              <StackPanel Orientation="Horizontal">
-                                   <Image Width="50" Height="50">
-                                   <Image.Source>
-                                        <BitmapImage UriSource="{Binding ImagePath}" />
-                                   </Image.Source>
-                                   </Image>
-                                   <StackPanel>
-                                        <TextBlock Text="{Binding TaskDescription}" Margin="5,0"/>
-                                        <TextBlock Text="{Binding DueDate}" Margin="5,0"/>
-                                   </StackPanel>
-                                   <Button Content="Delete" Margin="5,0" Command="{Binding DeleteCommand}" CommandParameter="{Binding ID}"/>
-                              </StackPanel>
-                         </DataTemplate>
-                    </ListBox.ItemTemplate>
-                    </ListBox>
-               </ScrollViewer>
-               </Grid>
+                         <Grid.ColumnDefinitions>
+                              <ColumnDefinition Width="*" />
+                         </Grid.ColumnDefinitions>
+                         <TextBlock Grid.Row="0" Text="To do soon:" FontWeight="Bold" FontSize="16" Margin="10 5 0 0"/>
+                         <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalScrollBarVisibility="Disabled" Grid.Row="1">
+                              <ListBox x:Name="TaskListBox" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" Grid.Column="0" Width="263">
+                                   <ListBox.ItemTemplate>
+                                        <DataTemplate >
+                                             <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" >
+                                                  <!-- Task Image -->
+                                                  <Image Width="50" Height="50">
+                                                       <Image.Source>
+                                                            <BitmapImage UriSource="{Binding ImagePath}" />
+                                                       </Image.Source>
+                                                  </Image>
+                                                  <!-- Task Details -->
+                                                  <StackPanel HorizontalAlignment="Left" Width="150">
+                                                       <TextBlock Text="{Binding DueDate,  StringFormat='dd/MM/yyyy'}" Margin="5,0"/>
+                                                       <TextBlock Text="{Binding TaskDescription}" HorizontalAlignment="Left" TextWrapping="Wrap" Margin="5,0">
+                                                            <TextBlock.Style>
+                                                                 <Style TargetType="TextBlock">
+                                                                      <Style.Triggers>
+                                                                           <DataTrigger Binding="{Binding DueDate, Converter={StaticResource DateTimeToBooleanConverter}}" Value="Red">
+                                                                                <Setter Property="Foreground" Value="Red"/>
+                                                                           </DataTrigger>
+                                                                           <DataTrigger Binding="{Binding DueDate, Converter={StaticResource DateTimeToBooleanConverter}}" Value="Green">
+                                                                                <Setter Property="Foreground" Value="Green"/>
+                                                                           </DataTrigger>
+                                                                           <DataTrigger Binding="{Binding DueDate, Converter={StaticResource DateTimeToBooleanConverter}}" Value="Yellow">
+                                                                                <Setter Property="Foreground" Value="Yellow"/>
+                                                                           </DataTrigger>
+                                                                      </Style.Triggers>
+                                                                 </Style>
+                                                            </TextBlock.Style>
+                                                       </TextBlock>
+                                                  </StackPanel>
+                                                  <Button Content="Delete" Padding="5" Cursor="Hand" Background="Transparent"  Command="{Binding DeleteCommand}" CommandParameter="{Binding ID}"/>
+                                             </StackPanel>
+                                        </DataTemplate>
+                                   </ListBox.ItemTemplate>
+                              </ListBox>
+                         </ScrollViewer>
+                    </Grid>
                </Border>
 
                <!-- Second Column with Scrollbar -->
@@ -82,7 +104,7 @@
                          <StackPanel Margin="10">
                               <StackPanel Orientation="Horizontal">
                                    <TextBlock x:Name="TitleText" Text="To do list:" FontWeight="Bold" FontSize="15"/>
-                                   
+
                               </StackPanel>
                               <StackPanel Orientation="Horizontal">
                                    <TextBlock Text="Task:" FontWeight="Bold" Margin="0 10 10 0"/>
@@ -100,32 +122,45 @@
                                    <TextBox TextWrapping="Wrap" MinWidth="200" AcceptsReturn="True" Margin="10 10 0 0" />
                                    <Button Content="Submit" Margin="10 10 0 0"/>
                               </StackPanel>
-                              
+
 
                               <StackPanel Orientation="Vertical">
                                    <StackPanel Orientation="Horizontal">
                                         <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
                                    </StackPanel>
                                    <StackPanel Orientation="Horizontal">
-                                        <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <TextBox Margin="0 10 10 0" MinWidth="200" Height="19"/>
+                                        <TextBlock Text="Title:" FontWeight="Bold" Margin="0 10 10 0" />
+                                        <TextBox x:Name="JournalTitleTextBox" Margin="0 10 10 0" MinWidth="200" Height="19"/>
                                         <TextBlock Text="Date:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <DatePicker Margin="0 10 10 0"/>
+                                        <DatePicker x:Name="JournalDatePicker" Margin="0 10 10 0"/>
                                         <TextBlock Text="Mood:" FontWeight="Bold" Margin="0 10 10 0"/>
-                                        <ComboBox Margin="0 10 0 0">
+                                        <ComboBox x:Name="MoodComboBox" Margin="0 10 0 0">
                                              <ComboBoxItem Content="Happy" />
                                              <ComboBoxItem Content="Sad" />
                                              <ComboBoxItem Content="Angry" />
                                              <ComboBoxItem Content="Stressed" />
                                         </ComboBox>
-                                        <Button Content="Save" Margin="10 10 0 0" Height="21"/>
+                                        <Button x:Name="JournalSaveButton" Content="Save" Margin="10 10 0 0" Height="21" Click="Journal_Button_Click"/>
                                    </StackPanel>
-                                   <TextBox TextWrapping="Wrap" Height="110" AcceptsReturn="True" Margin="0 10 0 0" />
+                                   <TextBox x:Name="JournalEntryTextBox" TextWrapping="Wrap" Height="110" AcceptsReturn="True" Margin="0 10 0 0" />
                                    <Image x:Name="ImagePreview" Stretch="Uniform" Source="myImage.png"/>
                               </StackPanel>
+                              
                               <TextBlock Text="To do list:" FontWeight="Bold" FontSize="15"/>
                               <TextBlock Text="Tasks (every day objectives):" FontWeight="Bold" FontSize="15"/>
                               <TextBlock Text="My journal:" FontWeight="Bold" FontSize="15"/>
+                              <ListBox x:Name="JournalListBox">
+                                   <ListBox.ItemTemplate>
+                                        <DataTemplate>
+                                             <StackPanel>
+                                                  <TextBlock Text="{Binding Title}" FontWeight="Bold"/>
+                                                  <TextBlock Text="{Binding Date}" FontStyle="Italic"/>
+                                                  <TextBlock Text="{Binding Mood}"/>
+                                                  <TextBlock Text="{Binding Entry}"/>
+                                             </StackPanel>
+                                        </DataTemplate>
+                                   </ListBox.ItemTemplate>
+                              </ListBox>
                          </StackPanel>
 
                     </ScrollViewer>
@@ -216,7 +251,7 @@
                                                        <DataTrigger Binding="{Binding ElementName=DatePicker, Path=SelectedDate}" Value="{x:Null}">
                                                             <Setter Property="IsEnabled" Value="False" />
                                                        </DataTrigger>
-                                                       
+
                                                        <DataTrigger Binding="{Binding ElementName=DatePicker, Path=SelectedDate}" Value="">
                                                             <Setter Property="IsEnabled" Value="True" />
                                                        </DataTrigger>
@@ -231,6 +266,6 @@
                </Border>
           </Grid>
      </DockPanel>
-     
+
 </Window>
      

@@ -1,7 +1,12 @@
-﻿using System;
+﻿using Newtonsoft.Json.Linq;
+using Newtonsoft.Json;
+using System;
 using System.ComponentModel;
 using System.Runtime.CompilerServices;
 using System.Windows.Input;
+using System.Globalization;
+using System.Windows.Data;
+using System.Windows.Media;
 
 namespace Notepad_Journal_App
 {
@@ -45,16 +50,9 @@ namespace Notepad_Journal_App
                set { deleteCommand = value; OnPropertyChanged(); }
           }
 
-          public TaskData(TaskManager taskManager)
+          public TaskData()
           {
-               ID = id;
-               DeleteCommand = new RelayCommand(param =>
-               {
-                    if (taskManager != null)
-                    {
-                         taskManager.RemoveTaskById(ID);
-                    }
-               });
+               // Parameterless constructor for creating new instances of TaskData
           }
 
           protected void OnPropertyChanged([CallerMemberName] string propertyName = null)
@@ -71,12 +69,16 @@ namespace Notepad_Journal_App
           public RelayCommand(Action<object> execute) : this(execute, null)
           {
           }
-
+          public RelayCommand()
+          {
+               // Default constructor needed for JSON deserialization
+          }
           public RelayCommand(Action<object> execute, Func<object, bool> canExecute)
           {
                _execute = execute ?? throw new ArgumentNullException(nameof(execute));
                _canExecute = canExecute;
           }
+
 
           public bool CanExecute(object parameter)
           {
@@ -94,6 +96,6 @@ namespace Notepad_Journal_App
                remove { CommandManager.RequerySuggested -= value; }
           }
      }
-
-
+     
+     
 }
