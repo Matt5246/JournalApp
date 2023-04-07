@@ -20,6 +20,9 @@ namespace Notepad_Journal_App
 
           public string ImagePath { get; private set; }
 
+          private string _BgColor = "#CBE4DE";
+          public string BgColor { get { return _BgColor; } set { _BgColor=value; } }
+
           private readonly DataManager<TaskData> taskManager;
           private readonly DataManager<JournalData> journalDataManager;
 
@@ -33,10 +36,9 @@ namespace Notepad_Journal_App
                journalDataManager = new DataManager<JournalData>(@"C:\\Users\\pawelniziolek\\Documents\\GitHub\\JournalApp\\Notepad_Journal_App\\Notepad_Journal_App\\journalData.json");
 
 
-               this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
-               TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
                TaskListBox.ItemsSource = taskManager.Data;
-
+               JournalListBox.ItemsSource = journalDataManager.Data;
+               BackGroundChange();
           }
 
           public class MyViewModel
@@ -50,29 +52,33 @@ namespace Notepad_Journal_App
                MenuItem menuItem = e.Source as MenuItem;
                if (menuItem.Header.ToString() == "Mint")
                {
-                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
-                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#CBE4DE"));
+                    BgColor="#CBE4DE";
                }
                else if (menuItem.Header.ToString() == "Light Blue")
                {
-                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
-                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#E3F6FF"));
+                    BgColor="#E3F6FF";
                }
                else if (menuItem.Header.ToString() == "Grey")
                {
-                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
-                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#EEEEEE"));
+                    BgColor="#EEEEEE";
                }
                else if (menuItem.Header.ToString() == "White")
                {
-                    this.Background = Brushes.White;
-                    TaskListBox.Background = Brushes.White;
+                    BgColor="#FFFFFF";
                }
                else if (menuItem.Header.ToString() == "Blue")
                {
-                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
-                    TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3A98B9"));
+                    BgColor="#3A98B9";
                }
+               BackGroundChange();
+
+          }
+          private void BackGroundChange()
+          {
+
+               this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
+               TaskListBox.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
+               JournalListBox.Background=  new SolidColorBrush((Color)ColorConverter.ConvertFromString(BgColor));
           }
           private void MenuFontColor_Click(object sender, RoutedEventArgs e)
           {
